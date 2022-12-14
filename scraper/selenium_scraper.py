@@ -39,23 +39,26 @@ def start_scraper(json_dict):
     except:
         print("invalid input format")
         
+   
     for item in product_list:
         thread_instance = threading.Thread(target=scrape_product, args=(item,))
         thread_instance.start()
+       
 
 def scrape_product(product_name):
     options = Options()
     #options.add_argument("--headless")
     driver = uc.Chrome(options)
     
-    driver.get("https://ceneo.pl/")
+    driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{product_name}")
     time.sleep(0.01)
    
     
     
     
 if __name__=="__main__":
-    start_scraper(temp)    
+    start_scraper(temp)
+     
         
 
     
