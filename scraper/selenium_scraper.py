@@ -1,18 +1,55 @@
-import selenium
+
 import json
-from flask import Flask, request
-from flask_cors import CORS
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
+
+temp ='''
+{ 
+        "list": [
+            {
+                "name": "Apap",
+                "price": "10"  
+            },
+            {
+                "name": "ibum",
+                "price": "12"
+            },
+            {
+                "name": "biotebal",
+                "price": "22" 
+            } 
+        ]
+}'''
 
 
-
-def start_scraper(json):
-    x = 1
+# THIS FUNCTION PARSES JSON SENT BY THE USER AND INITIALIZES INSTANCE OF scrape_product()
+# FOR EVERY PRODUCT NAME IN THE LIST   
+def start_scraper(json_dict):
     
-def search_product(product):
+    try:
+        products = json.loads(json_dict)
+        product_list = []
+        
+        for section in products["list"]:
+            product_list.append(section["name"])
+    except:
+        print("invalid input format")
+        
+    for item in product_list:
+        scrape_product(item)
+
+def scrape_product(product_name):
+    print()
+    
+   
+    
+    
+    
+if __name__=="__main__":
+    start_scraper(temp)    
+        
+
+    
+    
+""" def search_product(product):
     x = 1
     
 # Define app and handle CORS errors
@@ -39,7 +76,7 @@ def start_scraper():
 
 app.run(host="localhost", port=5000)           # Run backend server on localhost:5000
 
-    
+     """
     
     
     
@@ -47,37 +84,4 @@ app.run(host="localhost", port=5000)           # Run backend server on localhost
     
 
 
-if __name__ == '__main__':
-    options = Options()
-    options.add_argument("--headless")
-    driver = uc.Chrome(options=options)
-    driver.get("https://google.pl/")
-    element = driver.find_element(By.ID, "L2AGLb")
-    driver.execute_script("arguments[0].click()", element)
-    klub1 = input("Podaj pierwszą drużynę: ")
-    klub2 = input("Podaj drugą drużynę: ")
-    wyszukiwanie = klub1 + " " + klub2 + " ostatni mecz"
-    element = driver.find_element(By.CSS_SELECTOR, 'input.gLFyf.gsfi')
-    driver.execute_script("arguments[0].click()", element)
-    wyszukiwarka = driver.find_element(By.NAME, "q")
-    wyszukiwarka.clear()
-    wyszukiwarka.send_keys(wyszukiwanie)
-    wyszukiwarka.send_keys(Keys.ENTER)
-    try:
-        tablica_wyniku = driver.find_element(By.CSS_SELECTOR, 'div.imso_mh__ma-sc-cont')
-    except selenium.common.exceptions.NoSuchElementException:
-        tablica_wyniku = driver.find_element(By.CSS_SELECTOR, 'div.imso_mh__ma-sc-cont')
-    elementy = tablica_wyniku.find_elements(By.CSS_SELECTOR, "*")
-    wynik_spotkania = ""
-    for temp in elementy:
-        wynik_spotkania = wynik_spotkania + str(temp.get_attribute('innerHTML'))
-    druzyny = str(driver.find_element(By.CSS_SELECTOR, 'div.IkSHxd.ellipsisize').get_attribute('innerHTML')).split(" ")
-    data_spotkania = str(driver.find_element(By.XPATH, '//*[@id="sports-app"]/div/div[2]/div/div/div/div/div[1]/div[1]/div[1]/div/div/span[2]').get_attribute('innerHTML'))
-    rozgrywki = str(driver.find_element(By.CLASS_NAME, "imso-ln").get_attribute('innerHTML'))
-    print(rozgrywki + " " + data_spotkania + " ", end="")
-    for e in druzyny:
-        if str(e) != '–':
-            print(e + " ", end="")
-        else:
-            print(wynik_spotkania + " ", end="")
           
