@@ -1,5 +1,11 @@
 
 import json
+from selenium import webdriver
+import undetected_chromedriver as uc
+from selenium.webdriver.chrome.options import Options
+import time
+import random
+import threading
 
 temp ='''
 { 
@@ -34,11 +40,16 @@ def start_scraper(json_dict):
         print("invalid input format")
         
     for item in product_list:
-        scrape_product(item)
+        thread_instance = threading.Thread(target=scrape_product, args=(item,))
+        thread_instance.start()
 
 def scrape_product(product_name):
-    print()
+    options = Options()
+    #options.add_argument("--headless")
+    driver = uc.Chrome(options)
     
+    driver.get("https://ceneo.pl/")
+    time.sleep(0.01)
    
     
     
