@@ -1,6 +1,8 @@
 
 import json
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 import undetected_chromedriver as uc
 from selenium.webdriver.chrome.options import Options
 import time
@@ -11,7 +13,7 @@ temp ='''
 { 
         "list": [
             {
-                "name": "Apap",
+                "name": "dbiusdbciuasbduivcbusudiabdas",
                 "price": "10"  
             },
             {
@@ -37,8 +39,8 @@ def start_scraper(json_dict):
         for section in products["list"]:
             product_list.append(section["name"])
     except:
-        print("invalid input format")
-        
+        print("Invalid input format")
+        return 
    
     for item in product_list:
         thread_instance = threading.Thread(target=scrape_product, args=(item,))
@@ -52,13 +54,18 @@ def scrape_product(product_name):
     
     driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{product_name}")
     time.sleep(0.01)
-   
+    
+    try:
+        elem = driver.find_element(By.CLASS_NAME, 'category-list-body js_category-list-body js_search-results js_products-list-main js_async-container')
+    except:
+        print("No such product avaliable")
     
     
     
 if __name__=="__main__":
     start_scraper(temp)
      
+    input()
         
 
     
