@@ -88,37 +88,36 @@ def scrape_product(product_name, counter):
 
     for i in range(num_of_suggestions):
 
-            xpath = "//*[@class='category-list-body js_category-list-body " \
+        xpath   = "//*[@class='category-list-body js_category-list-body " \
                 f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]"
 
-            #THE I-TH DIV IN TLE LIST OF PRODUCTS
-            prod    = elem.find_element(By.XPATH, xpath)
-            #ACQUIRING NECESSARY ATTRIBUTES OF THE PRODUCT
-            price   = prod.get_attribute("data-productminprice")
-            rating  = prod.get_attribute("data-seorating")
+        # THE I-TH DIV IN TLE LIST OF PRODUCTS
+        prod    = elem.find_element(By.XPATH, xpath)
 
-            #SLIGHT CHANGE IN XPATH TO GET OTHER PARAMETERS
-            xpath = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
-                    f"js_products-list-main js_async-container']/div[{i+1}]/div[1]/div[1]/a"
-            prod = elem.find_element(By.XPATH, xpath)
+        # ACQUIRING NECESSARY ATTRIBUTES OF THE PRODUCT
+        price   = prod.get_attribute("data-productminprice")
+        rating  = prod.get_attribute("data-seorating")
 
-            link    = prod.get_attribute("href")
-            name = prod.get_attribute("title")
+        # SLIGHT CHANGE IN XPATH TO GET OTHER PARAMETERS
+        xpath   = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
+                f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a"
+        prod    = elem.find_element(By.XPATH, xpath)
 
+        link    = prod.get_attribute("href")
+        name    = prod.get_attribute("title")
 
-            xpath = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
-                    f"js_products-list-main js_async-container']/div[{i+1}]/div[1]/div[1]/a/img"
-            prod = elem.find_element(By.XPATH, xpath)
-            img = prod.get_attribute("src")
+        xpath   = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
+                f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a/img"
+        prod    = elem.find_element(By.XPATH, xpath)
+        img     = prod.get_attribute("src")
 
-            item = {"id": i}
-            item["name"]    = name
-            item["price"]   = price
-            item["rating"]  = rating[:-2]
-            item["link"]    = link
-            item["img"]     = img
-            suggestions.append(item)
-            print(i)
+        item = {"id": i}
+        item["name"]    = name
+        item["price"]   = price
+        item["rating"]  = rating[:-2]
+        item["link"]    = link
+        item["img"]     = img
+        suggestions.append(item)
 
 
     json_fin = json.dumps(suggestions, ensure_ascii=False, indent=2)
