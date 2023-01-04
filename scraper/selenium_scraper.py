@@ -3,6 +3,7 @@ import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 import undetected_chromedriver as uc
 from selenium.webdriver.chrome.options import Options
 import time
@@ -13,16 +14,8 @@ temp ='''
 { 
         "list": [
             {
-                "name": "dbiusdbciuasbduivcbusudiabdas",
-                "price": "10"  
-            },
-            {
                 "name": "ibum",
-                "price": "12"
-            },
-            {
-                "name": "biotebal",
-                "price": "22" 
+                "price": "10"  
             } 
         ]
 }'''
@@ -43,22 +36,84 @@ def start_scraper(json_dict):
         return 
    
     for item in product_list:
-        thread_instance = threading.Thread(target=scrape_product, args=(item,))
+        thread_instance = threading.Thread(target=scrape_product, args=(item, 0))
         thread_instance.start()
        
 
-def scrape_product(product_name):
+def scrape_product(product_name, counter):
+
+    counter += 1
     options = Options()
     #options.add_argument("--headless")
     driver = uc.Chrome(options)
     
     driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{product_name}")
-    time.sleep(0.01)
+    time.sleep(1)
     
-    try:
-        elem = driver.find_element(By.CLASS_NAME, 'category-list-body js_category-list-body js_search-results js_products-list-main js_async-container')
-    except:
-        print("No such product avaliable")
+    
+    #   IF THIS FAILS IT MEANS CAPTCHA BLOCKED THIS INSTANCE. IF THIS HAPPENS IT TRIES
+    #   AGAIN INCREMENTIG COUNTER BY 1. IF COUNTER REACHES CERTAIN NUMBER THE PROGRAM GIVES UP
+    if counter < 3:
+        try:
+            #driver.find_element(By.XPATH, "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")
+            WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,
+                    "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")))
+            
+        except:
+            print(f"Captcha error for product {product_name}, counter={counter}")
+            driver.quit()
+            time.sleep(15)
+            scrape_product(product_name, counter)
+            return
+    else:
+        print(f"Captcha error for product {product_name}, giving up")
+        return    
+
+    #THIS CHECKS WHETHER THIS PRODUCT IS AVALIABLE OR NOT
+    elem = driver.find_element(By.XPATH,
+                    "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div[1]")
+
+    if elem.get_attribute("class") == "alert":
+        print(f"No such product as {product_name} available")
+        return
+
+    num_of_suggestions = len(elem.find_elements(By.XPATH, './/div'))
+    print(num_of_suggestions)
+    if num_of_suggestions > 6:
+        num_of_suggestions = 6
+
+    # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
+    suggestions = []
+
+    for i in range(num_of_suggestions):
+
+            xpath = "//*[@class='category-list-body js_category-list-body " \
+                f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]"
+
+            #THE I-TH DIV IN TLE LIST OF PRODUCTS
+            prod    = elem.find_element(By.XPATH, xpath)
+            #ACQUIRING NECESSARY ATTRIBUTES OF THE PRODUCT
+            price   = prod.get_attribute("data-productminprice")
+            rating  = prod.get_attribute("data-seorating")
+
+            #SLIGHT CHANGE IN XPATH TO GET OTHER PARAMETERS
+            xpath = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
+                    f"js_products-list-main js_async-container']/div[{i+1}]/div[1]/div[1]/a"
+            prod = elem.find_element(By.XPATH, xpath)
+
+            link    = prod.get_attribute("href")
+            name = prod.get_attribute("title")
+
+            item = {"id": i}
+            item["name"]    = name
+            item["price"]   = price
+            item["rating"]  = rating
+            item["link"]    = "ceneo.pl"+link
+            suggestions.append(item)
+            print(i)
+
+
+    print(suggestions)
     
     
     
