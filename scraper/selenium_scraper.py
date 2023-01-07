@@ -18,14 +18,14 @@ temp ='''
                 "pizda": "10" 
             },
             {
-                "name": "ibum",
+                "name": "cerutin",
                 "price": "10",
                 "pizda": "10" 
             },
             {
                 "name": "apap",
                 "price": "10"  
-            }  
+            }
         ]
 }'''
 
@@ -55,18 +55,21 @@ def start_scraper(json_dict):
 
 def scrape_product(product_name, counter):
 
-    counter += 1
+
     options = Options()
     #options.add_argument("--headless")
     driver = uc.Chrome(options)
     
     driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{product_name}")
     time.sleep(1)
-    
+
+    total_height = int(driver.execute_script("return document.body.scrollHeight"))
+    for i in range(1, total_height, 5):     driver.execute_script("window.scrollTo(0, {});".format(i))
     
     #   IF THIS FAILS IT MEANS CAPTCHA BLOCKED THIS INSTANCE. IF THIS HAPPENS IT TRIES
     #   AGAIN INCREMENTIG COUNTER BY 1. IF COUNTER REACHES CERTAIN NUMBER THE PROGRAM GIVES UP
     if counter < 3:
+        counter += 1
         try:
             #driver.find_element(By.XPATH, "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")
             WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,
@@ -86,19 +89,21 @@ def scrape_product(product_name, counter):
     elem = driver.find_element(By.XPATH,
                     "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div[1]")
 
+
     if elem.get_attribute("class") == "alert":
         print(f"No such product as {product_name} available")
         return
 
-    num_of_suggestions = len(elem.find_elements(By.XPATH, './/div'))
-
-    if num_of_suggestions > 6:
-        num_of_suggestions = 6
+    path = "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div"
+    num_of_suggestions = len(elem.find_elements(By.XPATH, path))
+    print(num_of_suggestions)
+    if num_of_suggestions > 7:
+        num_of_suggestions = 7
 
     # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
     suggestions = []
-
-    for i in range(num_of_suggestions):
+    time.sleep(0.5)
+    for i in range(num_of_suggestions - 1):
 
         xpath   = "//*[@class='category-list-body js_category-list-body " \
                 f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]"
@@ -132,11 +137,15 @@ def scrape_product(product_name, counter):
         suggestions.append(item)
 
 
+
     json_fin = json.dumps(suggestions, ensure_ascii=False, indent=2)
     print(json_fin)
     f = open(f"{product_name}.txt", "w")
     f.write(json_fin)
     f.close()
+
+
+
     
 if __name__=="__main__":
     start_scraper(temp)
