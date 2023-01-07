@@ -16,8 +16,18 @@ temp ='''
         "list": [
             {
                 "name": "ibum",
+                "price": "10",
+                "pizda": "10" 
+            },
+            {
+                "name": "ibum",
+                "price": "10",
+                "pizda": "10" 
+            },
+            {
+                "name": "apap",
                 "price": "10"  
-            } 
+            }  
         ]
 }'''
 
@@ -34,9 +44,13 @@ def start_scraper(json_dict):
             product_list.append(section["name"])
     except:
         print("Invalid input format")
-        return 
-   
-    for item in product_list:
+        return
+
+    #REMOVE DUPLICATES
+    res = []
+    [res.append(x) for x in product_list if x not in res]
+
+    for item in res:
         thread_instance = threading.Thread(target=scrape_product, args=(item, 0))
         thread_instance.start()
        
@@ -79,7 +93,7 @@ def scrape_product(product_name, counter):
         return
 
     num_of_suggestions = len(elem.find_elements(By.XPATH, './/div'))
-    print(num_of_suggestions)
+
     if num_of_suggestions > 6:
         num_of_suggestions = 6
 
@@ -122,7 +136,7 @@ def scrape_product(product_name, counter):
 
     json_fin = json.dumps(suggestions, ensure_ascii=False, indent=2)
     print(json_fin)
-    f = open("Failed.txt", "w")
+    f = open(f"{product_name}.txt", "w")
     f.write(json_fin)
     f.close()
     
