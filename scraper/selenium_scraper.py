@@ -1,15 +1,13 @@
 
 import json
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import undetected_chromedriver as uc
 from selenium.webdriver.chrome.options import Options
 import time
-import random
 import threading
-import codecs
+
 
 temp ='''
 { 
