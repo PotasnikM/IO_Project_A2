@@ -1,0 +1,83 @@
+:root{
+    --Sniglet: "Sniglet", cursive;
+    --Poppins: "Poppins", cursive;
+    --Patua: "Patua One", cursive;
+    --Inter: "Inter", cursive;
+    --light-black: #26282C;
+    --light-gray: #a6a8a8;
+    --bggradient: linear-gradient(315deg, #2d3436 0%, #151618 74%);
+    --bggradient2: linear-gradient(360deg, #2d3436 0%, #151618 74%);
+    --gradient2:  linear-gradient(0deg, #28a0af 0%, #2657a1 74%);
+}
+
+header {
+    background: #151618;
+}
+main {
+    font-family: Poppins, sans-serif;
+    background: var(--bggradient2);
+}
+
+.signin1 {
+    padding: 10vmin;
+}
+
+
+
+.back i{
+    color: #38DEC8;
+    padding-left: 30px;
+}
+
+.signin1 .form-items{
+    padding: 2vmin;
+    border-radius: 25px;
+    border-color: #2eb7a5;
+}
+
+.signin1 .form-items > h1 {
+    font-size: 50px;
+    font-weight: bold;
+    color: whitesmoke;
+    padding-bottom: 30px;
+}
+
+.signin1 .form-items > p {
+    color: whitesmoke;
+}
+
+.signin1 .form-items .col-md-16 {
+    padding: 10px;
+}
+
+.signin1 .form-button .btn {
+    border: none;
+    color: whitesmoke;
+    margin-top: 10px;
+
+    background-color: #2eb7a5;
+}
+
+.signin1 .form-button .btn:active {
+    border: none;
+    background-color: #14524a;
+}
+
+.signin1 .form-check {
+    padding-top: 10px;
+}
+.signin1 .form-check > label {
+    color: whitesmoke;
+}
+
+.signin1 .logcont .log-items{
+    padding: 60px;
+    border:1px solid #2eb7a5;
+    box-shadow: 4.0px 8.0px 8.0px hsl(172, 62%, 32%);
+}
+
+footer {
+  background:#2d3436;
+    overflow-x: hidden;
+  padding: 8vmin 15vmin;
+}
