@@ -22,11 +22,23 @@ temp ='''
                 "pizda": "10" 
             },
             {
-                "name": "apap",
+                "name": "afsadfasdfsdfasdafasdf",
                 "price": "10"  
             }
         ]
-}'''
+        "list1": [
+            {
+                "name": "ibum",
+                "price": "10",
+                "pizda": "10" 
+            },
+            {
+                "name": "afsadfasdfsdfasdafasdf",
+                "price": "10"  
+            }
+        ]
+}
+'''
 
 
 # THIS FUNCTION PARSES JSON SENT BY THE USER AND INITIALIZES INSTANCE OF scrape_product()
@@ -47,7 +59,7 @@ def start_scraper(json_dict):
     res = []
     [res.append(x) for x in product_list if x not in res]
 
-    print(res)
+
 
     options = Options()
     # options.add_argument("--headless")
@@ -66,13 +78,13 @@ def start_scraper(json_dict):
     all_tabs = driver.window_handles
 
     item_ind = 0
-    print(all_tabs)
-    results = []
+
+    results = {}
 
     for tab in all_tabs:
 
         driver.switch_to.window(tab)
-        print(res[item_ind])
+
         counter = 0
         #   IF THIS FAILS IT MEANS CAPTCHA BLOCKED THIS INSTANCE. IF THIS HAPPENS IT TRIES
         #   AGAIN INCREMENTIG COUNTER BY 1. IF COUNTER REACHES CERTAIN NUMBER THE PROGRAM GIVES UP
@@ -99,19 +111,19 @@ def start_scraper(json_dict):
         if elem.get_attribute("class") == "alert":
             print(f"No such product as {res[item_ind]} available")
             continue
-        #SCROLL TO THE BOTTOM TO LOAD IMAGES
 
+        #SCROLL TO THE BOTTOM TO LOAD IMAGES
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight)");
 
         path = "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div"
         num_of_suggestions = len(elem.find_elements(By.XPATH, path))
-        print(num_of_suggestions)
+
         if num_of_suggestions > 7:
             num_of_suggestions = 7
 
         # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
         suggestions = [f"{res[item_ind]}"]
-        print(res[item_ind],item_ind)
+
         for i in range(num_of_suggestions - 1):
             xpath = "//*[@class='category-list-body js_category-list-body " \
                     f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]"
