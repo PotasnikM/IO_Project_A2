@@ -47,103 +47,121 @@ def start_scraper(json_dict):
     res = []
     [res.append(x) for x in product_list if x not in res]
 
-    for item in res:
-        thread_instance = threading.Thread(target=scrape_product, args=(item, 0))
-        thread_instance.start()
-       
-
-def scrape_product(product_name, counter):
-
+    print(res)
 
     options = Options()
-    #options.add_argument("--headless")
+    # options.add_argument("--headless")
+    options.add_argument("--disable-popup-blocking")
     driver = uc.Chrome(options)
-    
-    driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{product_name}")
-    time.sleep(1)
-
-    total_height = int(driver.execute_script("return document.body.scrollHeight"))
-    for i in range(1, total_height, 5):     driver.execute_script("window.scrollTo(0, {});".format(i))
-    
-    #   IF THIS FAILS IT MEANS CAPTCHA BLOCKED THIS INSTANCE. IF THIS HAPPENS IT TRIES
-    #   AGAIN INCREMENTIG COUNTER BY 1. IF COUNTER REACHES CERTAIN NUMBER THE PROGRAM GIVES UP
-    if counter < 3:
-        counter += 1
-        try:
-            #driver.find_element(By.XPATH, "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")
-            WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,
-                    "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")))
-            
-        except:
-            print(f"Captcha error for product {product_name}, counter={counter}")
-            driver.quit()
-            time.sleep(15)
-            scrape_product(product_name, counter)
-            return
-    else:
-        print(f"Captcha error for product {product_name}, giving up")
-        return    
-
-    #THIS CHECKS WHETHER THIS PRODUCT IS AVALIABLE OR NOT
-    elem = driver.find_element(By.XPATH,
-                    "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div[1]")
-
-
-    if elem.get_attribute("class") == "alert":
-        print(f"No such product as {product_name} available")
-        return
-
-    path = "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div"
-    num_of_suggestions = len(elem.find_elements(By.XPATH, path))
-    print(num_of_suggestions)
-    if num_of_suggestions > 7:
-        num_of_suggestions = 7
-
-    # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
-    suggestions = []
-    time.sleep(0.5)
-    for i in range(num_of_suggestions - 1):
-
-        xpath   = "//*[@class='category-list-body js_category-list-body " \
-                f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]"
-
-        # THE I-TH DIV IN TLE LIST OF PRODUCTS
-        prod    = elem.find_element(By.XPATH, xpath)
-
-        # ACQUIRING NECESSARY ATTRIBUTES OF THE PRODUCT
-        price   = prod.get_attribute("data-productminprice")
-        rating  = prod.get_attribute("data-seorating")
-
-        # SLIGHT CHANGE IN XPATH TO GET OTHER PARAMETERS
-        xpath   = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
-                f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a"
-        prod    = elem.find_element(By.XPATH, xpath)
-
-        link    = prod.get_attribute("href")
-        name    = prod.get_attribute("title")
-
-        xpath   = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
-                f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a/img"
-        prod    = elem.find_element(By.XPATH, xpath)
-        img     = prod.get_attribute("src")
-
-        item = {"id": i}
-        item["name"]    = name
-        item["price"]   = price
-        item["rating"]  = rating[:-2]
-        item["link"]    = link
-        item["img"]     = img
-        suggestions.append(item)
 
 
 
-    json_fin = json.dumps(suggestions, ensure_ascii=False, indent=2)
+    driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{res[0]}")
+    temporary = res.copy()
+    temporary.pop(0)
+    print(temporary)
+    for item in temporary:
+        driver.execute_script(f"window.open('https://www.ceneo.pl/Zdrowie;szukaj-{item}')")
+
+    all_tabs = driver.window_handles
+
+    item_ind = 0
+    print(all_tabs)
+    results = []
+
+    for tab in all_tabs:
+
+        driver.switch_to.window(tab)
+        print(res[item_ind])
+        counter = 0
+        #   IF THIS FAILS IT MEANS CAPTCHA BLOCKED THIS INSTANCE. IF THIS HAPPENS IT TRIES
+        #   AGAIN INCREMENTIG COUNTER BY 1. IF COUNTER REACHES CERTAIN NUMBER THE PROGRAM GIVES UP
+        while counter < 3:
+            try:
+                # driver.find_element(By.XPATH, "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")
+                WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,
+                                                                                "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']")))
+                break
+            except:
+                time.sleep(10)
+                driver.refresh()
+
+            counter += 1
+        if counter == 3:
+            print(f"Captcha error for product {res[item_ind]}, giving up")
+            return "Captcha error"
+
+
+            # THIS CHECKS WHETHER THIS PRODUCT IS AVALIABLE OR NOT
+        elem = driver.find_element(By.XPATH,
+                                   "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div[1]")
+
+        if elem.get_attribute("class") == "alert":
+            print(f"No such product as {res[item_ind]} available")
+            continue
+        #SCROLL TO THE BOTTOM TO LOAD IMAGES
+
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)");
+
+        path = "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div"
+        num_of_suggestions = len(elem.find_elements(By.XPATH, path))
+        print(num_of_suggestions)
+        if num_of_suggestions > 7:
+            num_of_suggestions = 7
+
+        # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
+        suggestions = [f"{res[item_ind]}"]
+        print(res[item_ind],item_ind)
+        for i in range(num_of_suggestions - 1):
+            xpath = "//*[@class='category-list-body js_category-list-body " \
+                    f"js_search-results js_products-list-main js_async-container']/div[{i + 1}]"
+
+            # THE I-TH DIV IN TLE LIST OF PRODUCTS
+            prod = elem.find_element(By.XPATH, xpath)
+
+            # ACQUIRING NECESSARY ATTRIBUTES OF THE PRODUCT
+            price = prod.get_attribute("data-productminprice")
+            rating = prod.get_attribute("data-seorating")
+
+            # SLIGHT CHANGE IN XPATH TO GET OTHER PARAMETERS
+            xpath = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
+                    f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a"
+            prod = elem.find_element(By.XPATH, xpath)
+
+            link = prod.get_attribute("href")
+            name = prod.get_attribute("title")
+
+            xpath = f"// *[@class ='category-list-body js_category-list-body js_search-results " \
+                    f"js_products-list-main js_async-container']/div[{i + 1}]/div[1]/div[1]/a/img"
+            prod = elem.find_element(By.XPATH, xpath)
+            img = prod.get_attribute("src")
+
+            item = {"id": i}
+            item["name"] = name
+            item["price"] = price
+            item["rating"] = rating[:-2]
+            item["link"] = link
+            item["img"] = img
+            suggestions.append(item)
+        results.append(suggestions)
+        item_ind += 1
+
+    json_fin = json.dumps(results, ensure_ascii=False, indent=2)
     print(json_fin)
-    f = open(f"{product_name}.txt", "w")
+    f = open("result.txt", "w")
     f.write(json_fin)
     f.close()
 
 
+
+
+
+
+
+
+
+
+##########################################
 
     
 if __name__=="__main__":
@@ -154,34 +172,7 @@ if __name__=="__main__":
 
     
     
-""" def search_product(product):
-    x = 1
-    
-# Define app and handle CORS errors
-app = Flask(__name__)
-CORS(app)
-    
-@app.route('/api/sendProd', methods=['POST'])
-def start_scraper():
-    data= json.loads(request.data)              # JSON sent from frontend
-    color_thief = ColorThief(url['image'])      # Do sth with the data
-    colors_arr = color_thief.get_palette(5, 1)
-    response = {                                # Python dict with response
-        "colors": []
-    }
 
-    for idx, each in enumerate(colors_arr):
-    response["colors"].append({ "red": 0, "green": 0, "blue": 0 })
-    response["colors"][idx]["red"] = each[0]
-    response["colors"][idx]["green"] = each[1]
-    response["colors"][idx]["blue"] = each[2]
-
-    response = jsonify(response)               # Translate Python dict into JSON
-    return response                            # Send response to frontend
-
-app.run(host="localhost", port=5000)           # Run backend server on localhost:5000
-
-     """
     
     
     
