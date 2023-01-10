@@ -26,17 +26,7 @@ temp ='''
                 "price": "10"  
             }
         ]
-        "list1": [
-            {
-                "name": "ibum",
-                "price": "10",
-                "pizda": "10" 
-            },
-            {
-                "name": "afsadfasdfsdfasdafasdf",
-                "price": "10"  
-            }
-        ]
+    
 }
 '''
 
