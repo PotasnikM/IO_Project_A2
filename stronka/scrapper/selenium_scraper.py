@@ -60,7 +60,6 @@ def start_scraper(json_dict):
     driver.get(f"https://www.ceneo.pl/Zdrowie;szukaj-{res[0]}")
     temporary = res.copy()
     temporary.pop(0)
-    print(temporary)
     for item in temporary:
         driver.execute_script(f"window.open('https://www.ceneo.pl/Zdrowie;szukaj-{item}')")
 
@@ -102,7 +101,8 @@ def start_scraper(json_dict):
             continue
 
         #SCROLL TO THE BOTTOM TO LOAD IMAGES
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)");
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        driver.implicitly_wait(3)
 
         path = "//*[@class='category-list-body js_category-list-body js_search-results js_products-list-main js_async-container']/div"
         num_of_suggestions = len(elem.find_elements(By.XPATH, path))
