@@ -26,17 +26,6 @@ temp ='''
                 "price": "10"  
             }
         ]
-        "list1": [
-            {
-                "name": "ibum",
-                "price": "10",
-                "pizda": "10" 
-            },
-            {
-                "name": "afsadfasdfsdfasdafasdf",
-                "price": "10"  
-            }
-        ]
 }
 '''
 
@@ -122,7 +111,7 @@ def start_scraper(json_dict):
             num_of_suggestions = 7
 
         # DICTIONARY OF THE SUGGESTED PRODUCTS GATHERED
-        suggestions = [f"{res[item_ind]}"]
+        suggestions = []
 
         for i in range(num_of_suggestions - 1):
             xpath = "//*[@class='category-list-body js_category-list-body " \
@@ -148,14 +137,9 @@ def start_scraper(json_dict):
             prod = elem.find_element(By.XPATH, xpath)
             img = prod.get_attribute("src")
 
-            item = {"id": i}
-            item["name"] = name
-            item["price"] = price
-            item["rating"] = rating[:-2]
-            item["link"] = link
-            item["img"] = img
+            item = {"id": i, "name": name, "price": price, "rating": rating[:-2], "link": link, "img": img}
             suggestions.append(item)
-        results.append(suggestions)
+        results.update({f"{res[item_ind]}": suggestions})
         item_ind += 1
 
     json_fin = json.dumps(results, ensure_ascii=False, indent=2)

@@ -2,3 +2,4 @@ selenium==4.4.3
 WTForms~=3.0.1
 Flask~=2.2.2
 SQLAlchemy~=1.4.40
+undetected_chromedriver
