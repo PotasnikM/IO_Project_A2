@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'ACompl1cat3dText.'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Admindb@localhost:5432'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block links %}
+    <link rel="stylesheet" href="../static/css/login_register.css">
+{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('home_page') }}">HOME</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<h5>
+    <input type="text" id="search-input" placeholder="Wpisz frazę wyszukiwania">
+<!--    <input type="text" class="search-input" placeholder="Wpisz frazę wyszukiwania">-->
+    <button type="submit" id="search-button">Search</button>
+</h5>
+    <div id="innerdiv"></div>
+    <button id="add-button">Add item</button>
+    <script type="text/javascript" src="{{url_for('static', filename='js/searchBar.js')}}"></script>
+
+{% endblock %}

@@ -11,7 +11,7 @@
           integrity="sha512-uvXdJud8WaOlQFjlz9B15Yy2Au/bMAvz79F7Xa6OakCl2jvQPdHD0hb3dEqZRdSwG4/sknePXlE7GiarwA/9Wg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js%22%3E"></script>
     {% block links %}
       {% endblock %}
   </head>
@@ -28,6 +28,7 @@
 
                             {% endblock %}
                         </ul>
+                        <a href="{{ url_for('search') }}" class="nav-link login">SEARCH</a>
                         {% if current_user.is_authenticated %}
                         <a href="{{ url_for('logout_page') }}" class="nav-link login">LOGOUT</a>
                         {% else %}

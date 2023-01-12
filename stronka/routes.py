@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user
 from stronka import app
 from stronka.forms import RegisterForm, LoginForm
@@ -51,3 +51,14 @@ def logout_page():
     logout_user()
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
+
+@app.route('/search')
+def search():
+    return render_template('search_bar.html')
+
+@app.route('/search', methods=['POST'])
+def search_post():
+    data = request.get_json(force=True)
+    if data:
+        # SCRAPPER
+        print(data)
