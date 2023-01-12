@@ -33,9 +33,10 @@ temp ='''
 # THIS FUNCTION PARSES JSON SENT BY THE USER AND INITIALIZES INSTANCE OF scrape_product()
 # FOR EVERY PRODUCT NAME IN THE LIST   
 def start_scraper(json_dict):
-    
+
+    print(json_dict)
     try:
-        products = json.loads(json_dict)
+        products = json_dict
         product_list = []
         
         for section in products["list"]:
@@ -147,33 +148,11 @@ def start_scraper(json_dict):
     f = open("result.txt", "w")
     f.write(json_fin)
     f.close()
-
-
-
-
-
-
-
-
+    return json_fin
 
 
 ##########################################
 
     
-if __name__=="__main__":
+if __name__ == "__main__":
     start_scraper(temp)
-     
-    input()
-        
-
-    
-    
-
-    
-    
-    
-    
-    
-
-
-          

@@ -2,7 +2,7 @@ const addInputButton = document.getElementById("add-button");
 const inputContainer = document.getElementById("input-container");
 
 document.getElementById('search-button').addEventListener('click', search);
-  // event.preventDefault(); // zapobiega przeładowaniu strony po kliknięciu przycisku
+// event.preventDefault(); // zapobiega przeładowaniu strony po kliknięciu przycisku
   // var searchInput = document.getElementById('search-input').value; // pobieramy wartość pola tekstowego
   // alert(searchInput)
 
@@ -23,7 +23,7 @@ function search() {
       };
       itemsArray.push(item);
   }
-  alert(JSON.stringify(itemsArray));
+  // alert(JSON.stringify(itemsArray));
 
   let temp = typeof searchInput;
   $.ajax({
@@ -38,3 +38,7 @@ function search() {
       }
   });
 }
+
+//TODO: limit do 10 elementów
+//TODO: Pobłogosławić CSSem
+//TODO: Jakieś komentarze

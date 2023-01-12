@@ -4,6 +4,7 @@ from stronka import app
 from stronka.forms import RegisterForm, LoginForm
 from stronka.models import User
 from stronka import db
+from stronka.scrapper.selenium_scraper import start_scraper
 
 
 @app.route('/')
@@ -62,3 +63,9 @@ def search_post():
     if data:
         # SCRAPPER
         print(data)
+        json_dict = {
+            "list": data
+        }
+        print(json_dict)
+        print(start_scraper(json_dict))
+    return redirect(url_for('home_page'))
