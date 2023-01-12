@@ -1,0 +1,305 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins|Patua+One|Inter|Sniglet");
+* {
+    box-sizing: border-box;
+}
+
+header,
+section {
+    overflow-x: hidden;
+}
+
+:root{
+    --Sniglet: "Sniglet", cursive;
+    --Poppins: "Poppins", cursive;
+    --Patua: "Patua One", cursive;
+    --Inter: "Inter", cursive;
+    --light-black: #26282C;
+    --light-gray: #a6a8a8;
+    --bggradient: linear-gradient(360deg, #2d3436 0%, #151618 74%);
+    --gradient2:  linear-gradient(0deg, #28a0af 0%, #2657a1 74%);
+}
+
+header a {
+  font-family: var(--Sniglet);
+  font-size: 0.9em;
+  color: whitesmoke;
+}
+
+header .nav-item {
+  padding: 0.82em;
+}
+
+header .navbar-brand {
+  padding-left: 8rem;
+}
+
+header .nav-link:hover {
+  color: #38DEC8;
+}
+
+header .login {
+    margin-left: 80px;
+}
+
+header #signin {
+    margin-right: 130px;
+}
+
+header {
+  background: #2d3436;
+  background: var(--bggradient);
+}
+
+header .row .col-md-7 {
+    padding: 22vmin 1vmin 35vmin;
+}
+
+header .row .col-md-5 {
+  padding: 15vmin 0.1vmin;
+
+}
+
+header .row .col-md-5 img {
+  width: 90%;
+}
+
+header .container .col-md-7 {
+  font-family: "Poppins", sans-serif;
+}
+
+header .container .col-md-7 h6 {
+  padding: 1vmin;
+  letter-spacing: 4px;
+}
+
+header .container .col-md-7 h1 {
+  font-size: 8.5vmin;
+  font-weight: bold;
+  padding: 0.1em 0em;
+  color: #38DEC8;
+}
+
+header .container .col-md-7 p {
+  padding: 1vmin 5vmin;
+}
+
+
+.title_cover .title_text {
+  width: 100%;
+  height: 100%;
+  padding-top: 10vmin;
+  padding-bottom: 5vmin;
+  letter-spacing: 2px;
+}
+
+.title_cover .title_text > h1{
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 5.5vmin;
+    color: #ffffff;
+}
+
+.title_cover .title_text > p{
+    margin-top: 10px;
+    font-size: 2.5vmin;
+    color: #ffffff;
+}
+
+.section1{
+    font-family: "Poppins", sans-serif;
+}
+.section1 .row .col-md-6 .panel h1{
+    padding: 5vmin;
+    font-size: 5.5vmin;
+    font-weight: bold;
+}
+
+.section1 .panel{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 1vmin 5vmin;
+    box-shadow: 7.0px 13.9px 13.9px hsl(0deg 0% 0% / 0.28);
+    border-radius: 25px;
+}
+
+.btn-index {
+  background: #239889;
+  border-radius: 999px;
+  margin: 20px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px 18px;
+  border: 0;
+}
+
+.section1 .panel{
+    padding: 5vmin 5vmin;
+}
+
+.section1 form .drop-list{
+  display: flex;
+  margin-top: 10px;
+    margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section1 .drop-list .select-box{
+  display: flex;
+  width: 115px;
+  height: 45px;
+  align-items: center;
+  border-radius: 5px;
+  justify-content: center;
+  border: 1px solid #999;
+}
+
+.btn-index {
+  background: #239889;
+  border-radius: 999px;
+  margin: 20px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  font-weight: bold;
+  padding: 8px 18px;
+  border: 0;
+}
+
+.exchange {
+    margin-top: 38px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: whitesmoke;
+    border-color: #38dec8;
+    border-width: 2px;
+
+}
+
+.section1 .showcase{
+    margin-top: 140px;
+    margin-left: 100px;
+    margin-bottom: 100px;
+    padding: 1vmin 5vmin;
+}
+
+.section1 .showcase > h2 {
+    padding: 2vmin;
+    font-size: 3vmin;
+    font-weight: bold;
+}
+
+.section1 .showcase > h3 {
+    padding: 2vmin;
+    font-size: 4vmin;
+    font-weight: bold;
+    box-shadow: 7.0px 13.9px 13.9px hsl(0deg 0% 0% / 0.28);
+    border-radius: 25px;
+}
+.section2 {
+    font-family: var(--Poppins);
+}
+
+.cover {
+    width: 100%;
+    height: 55vmin;
+    background: url("../img/sec2backgroud.jpg") -24rem -19rem;
+    background-size: 150%;
+    position: relative;
+}
+
+.cover .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.cover .content {
+  width: 100%;
+  height: 100%;
+  padding-top: 19vmin;
+}
+
+.section2 .content > h1{
+    margin-top: 40px;
+
+    font-weight: bold;
+    font-size: 5.5vmin;
+    color: whitesmoke;
+}
+
+.section2 .content > p{
+    font-weight: normal;
+    font-size: 2vmin;
+    color: whitesmoke;
+}
+
+.section2 .d-flex{
+     margin-top: -15vmin;
+}
+
+.section2 .currency_rect{
+    margin: 50px;
+}
+
+.section2 .currency_rect {
+      position: relative;
+      background: white;
+      width: 17rem;
+      padding: 3.5vmin 5vmin 5vmin;
+      margin: 50px;
+      border-radius: 15px;
+      box-shadow: 7.0px 13.9px 13.9px hsl(0deg 0% 0% / 0.28);
+}
+
+
+.section2 .currency_rect > h4{
+    margin-top: 40px;
+}
+
+.section3 {
+    font-family: var(--Poppins);
+    padding-top: 19vmin;
+}
+
+.section3 .col-md-12 {
+    padding: 10vmin 5vmin 5vmin;
+}
+
+.section3 .col-md-12 > h1{
+    font-weight: bold;
+    font-size: 5.5vmin;
+}
+
+#chartdiv_index {
+      margin: 30px;
+  box-shadow: 7.0px 13.9px 13.9px hsl(0deg 0% 0% / 0.28);
+  border-radius: 10px;
+  width: 90%;
+  height: 500px;
+  max-width: 95%;
+}
+footer {
+  background: #2d3436;
+    overflow-x: hidden;
+  padding: 8vmin 15vmin;
+}
+
+footer input {
+  border: none !important;
+}
+
+footer input::placeholder {
+  color: white !important;
+}
+
+footer .input-group .input-group-text {
+  background: #2eb7a5;
+  border: none;
+}
+

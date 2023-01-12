@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block links %}
+    <link rel="stylesheet" href="../static/css/login_register.css">
+{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('home_page') }}">HOME</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+     <main>
+        <div class="signin1">
+            <div class="back">
+                <a href="/"><i class="fa-solid fa-angle-left fa-2xl"></i></a>
+            </div>
+            <div class="formcont container p-2">
+                <div class="d-flex flex-md-row flex-wrap justify-content-center">
+                    <div class="form-items">
+                        <h1>Register Today</h1>
+                        <p>Fill in the data below.</p>
+                        <form method="POST" class="form-register">
+                            {{ form.hidden_tag() }}
+                            <div class="col-md-16">
+                                {{ form.username(class="form-control", placeholder="Username") }}
+                            </div>
+
+                            <div class="col-md-16">
+                                {{ form.email_address(class="form-control", placeholder="E-mail Address") }}
+                            </div>
+
+                           <div class="col-md-16">
+                              {{ form.password1(class="form-control", placeholder="Password") }}
+                           </div>
+
+                          <div class="col-md-16">
+                              {{ form.password2(class="form-control", placeholder="Confirm Password") }}
+                           </div>
+                            <div class="form-button mt-3 text-center">
+                                 {{ form.submit(class="btn") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
