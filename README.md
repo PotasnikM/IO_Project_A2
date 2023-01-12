@@ -6,14 +6,9 @@ krisplis@localhost:/some/location$ tree
 .
 ├── app.py
 ├── requirements.txt
+├── README
 └── stronka
-    ├── README
     ├── __init__.py
-    ├── __pycache__
-    │   ├── __init__.cpython-38.pyc
-    │   ├── forms.cpython-38.pyc
-    │   ├── models.cpython-38.pyc
-    │   └── routes.cpython-38.pyc
     ├── create_db.py
     ├── forms.py
     ├── models.py
@@ -38,7 +33,7 @@ krisplis@localhost:/some/location$ tree
         ├── login.html
         └── signin.html
 
-7 directories, 26 files
+6 directories, 22 files
 ```
 
 ## Setup postgres database
@@ -68,6 +63,35 @@ krisplis@localhost:/some/location$ netstat -tulpn | grep 5432
 (No info could be read for "-p": geteuid()=1000 but you should be root.)
 tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      -
 krisplis@localhost:/some/location$
+```
+
+## Make sure you have Python 3.8.10 (or newer) and pip 20.0.2 (or newer) installed
+```
+krisplis@LAPTOP-3B7TF2NS:/mnt/c/Users/Krzychu/Desktop/Studia/V semestr/IO_Project_A2$ python3 --version
+Python 3.8.10
+krisplis@LAPTOP-3B7TF2NS:/mnt/c/Users/Krzychu/Desktop/Studia/V semestr/IO_Project_A2$ pip --version
+pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+krisplis@LAPTOP-3B7TF2NS:/mnt/c/Users/Krzychu/Desktop/Studia/V semestr/IO_Project_A2$
+```
+If not install python and pip
+```
+krisplis@localhost:/some/location$ apt-get upgrade
+.
+.
+.
+krisplis@localhost:/some/location$ apt install python3
+.
+.
+.
+krisplis@localhost:/some/location$ apt install pip
+.
+.
+.
+```
+
+## Install all project requirements
+```
+krisplis@localhost:/some/location$ pip install -r requirements
 ```
 
 ## Initialise database
