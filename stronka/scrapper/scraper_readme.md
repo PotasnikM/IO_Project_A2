@@ -8,4 +8,4 @@ Chrome driver used: ChromeDriver 108.0.5359.71 --> https://chromedriver.storage.
 
 #### FUNCTIONS DESCRIPTION ####
 Function start_scraper() as input takes a json of products and parses it, acquiring only the names of the products
-of interest
+of interest. Example of input type required for the function to work is visible in start_scraper() function
